@@ -118,6 +118,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 @media (max-width:820px){.kpis{grid-template-columns:1fr 1fr}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>window.sb=window.supabase.createClient('https://hatghwzloxqfgveikmta.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhdGdod3psb3hxZmd2ZWlrbXRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNjE3NDEsImV4cCI6MjEwODczNzc0MX0._Ko2nJP1NHe2r7eaprIncVvFwrpllreuxRbXcAthT7s',{auth:{flowType:'pkce'}});</script>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
@@ -245,33 +246,26 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 </div>
 <div class="page" id="p-account" hidden>
 <div id="acctLogin">
-<div class="wrap pagehead"><h1>My account</h1><p class="lead">Sign in to see your bookings, approve quotes and download service history.</p></div>
+<div class="wrap pagehead"><h1 id="aTitle">My account</h1><p class="lead">Sign in to see your bookings and service history.</p></div>
 <section class="block" style="padding-top:1rem"><div class="wrap" style="max-width:520px"><div class="panel">
 <form id="loginForm" novalidate>
 <div class="field"><label for="le">Email</label><input id="le" type="email" autocomplete="email" required></div>
 <div class="field"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" required></div>
 <p id="lErr" role="alert" style="color:#B5462F;min-height:1.5em;margin:0 0 .5rem"></p>
-<button class="btn" type="submit">Sign in</button>
-<p style="margin:1.2rem 0 0;font-size:.95rem;color:var(--muted)">New customer? Your account is created automatically with your first booking. <a href="#booking">Book a service</a></p>
-<p style="margin:.8rem 0 0;font-size:.85rem;color:var(--muted)">Preview only: any email and password will open the sample account.</p>
+<button class="btn" id="lBtn" type="submit">Sign in</button>
+<p style="margin:1.2rem 0 0;font-size:.95rem;color:var(--muted)"><span id="swTxt">New here?</span> <a href="#account" id="swMode">Create an account</a>. Use the same email address you book with.</p>
 </form></div></div></section>
 </div>
 <div id="acctHome" hidden>
-<div class="wrap pagehead acctbar"><div><h1 id="hello">Welcome back</h1><p class="lead" style="margin:0">Everything for your vehicles in one place.</p></div><button class="btn line sm" id="signOut" type="button">Sign out</button></div>
+<div class="wrap pagehead acctbar"><div><h1 id="hello">Welcome back</h1><p class="lead" style="margin:0">Your bookings and service history.</p></div><button class="btn line sm" id="signOut" type="button">Sign out</button></div>
 <section class="block" style="padding-top:2rem"><div class="wrap">
+<p id="aMsg" role="status" style="color:var(--muted);margin:0 0 1rem"></p>
 <div class="agrid">
-<div class="card"><span class="tag">Next booking</span><h3>Full service</h3><p>Friday 6 November, drop-off 9:00 am<br>BMW M340i (HM21 XYZ)</p><p>Estimated ready by 4:00 pm the same day.</p><a class="btn line sm" href="#contact">Change or cancel</a></div>
-<div class="card" id="quoteCard"><span class="tag warn">Needs your approval</span><h3>Quote: front brake discs and pads</h3><p>Photos of the worn parts are attached to your quote. Total including parts, labour and VAT: <b style="color:var(--ink)">£642.00</b></p><div class="actions" style="margin-top:1rem"><button class="btn sm" id="qOk" type="button">Approve quote</button><button class="btn line sm" id="qNo" type="button">Decline</button></div></div>
+<div class="card" id="nextCard"></div>
+<div class="card"><h3>My vehicles</h3><dl id="carList" style="margin:0"></dl><p style="margin:1.2rem 0 0"><a href="#booking">Book a service</a></p></div>
 </div>
-<div class="agrid">
-<div class="card"><h3>My vehicles</h3><dl style="margin:0"><dt style="margin-top:0">BMW M340i <span style="font-weight:400;color:var(--muted)">· HM21 XYZ</span></dt><dd>MOT due 14 March · Last service 2 May</dd><dt>Audi A3 <span style="font-weight:400;color:var(--muted)">· LK18 ABC</span></dt><dd>MOT due 22 January · Last service 9 October</dd></dl><p style="margin:1.2rem 0 0"><a href="#booking">Book a service</a></p></div>
-<div class="card"><h3>Warranty and documents</h3><p>Your 12 month warranty covers all parts and labour on completed work. Keep your invoices for any claim.</p><p style="margin:0"><a href="#contact">Contact the workshop</a></p></div>
-</div>
-<h2 style="font-size:1.6rem;margin-top:2.5rem">Service history</h2>
-<div class="scroll"><table class="hist"><tr><th>Date</th><th>Vehicle</th><th>Work carried out</th><th class="r">Invoice</th></tr>
-<tr><td>9 Oct</td><td>Audi A3</td><td>Interim service</td><td class="r">£189.00</td></tr>
-<tr><td>2 May</td><td>BMW M340i</td><td>Full service and brake fluid change</td><td class="r">£412.00</td></tr>
-<tr><td>18 Jan</td><td>Audi A3</td><td>Diagnostics: engine warning light</td><td class="r">£96.00</td></tr></table></div>
+<h2 style="font-size:1.6rem;margin-top:2.5rem">Bookings and service history</h2>
+<div class="scroll"><table class="hist" id="hist"></table></div>
 </div></section>
 </div>
 </div>
@@ -397,26 +391,6 @@ document.getElementById('cForm').addEventListener('submit',function(e){
 </script>
 <script>
 (function(){
-var L=document.getElementById('acctLogin'),H=document.getElementById('acctHome');
-function show(on){L.hidden=on;H.hidden=!on;}
-document.getElementById('loginForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  var em=document.getElementById('le').value.trim(),pw=document.getElementById('lp').value,err=document.getElementById('lErr');
-  if(!/^\S+@\S+\.\S+$/.test(em)){err.textContent='Enter the email address you booked with.';return;}
-  if(!pw){err.textContent='Enter your password.';return;}
-  err.textContent='';
-  var n=em.split('@')[0].replace(/[._-]+/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
-  document.getElementById('hello').textContent='Welcome back, '+n;
-  show(true);window.scrollTo(0,0);
-});
-document.getElementById('signOut').addEventListener('click',function(){show(false);document.getElementById('loginForm').reset();window.scrollTo(0,0);});
-function answer(t){var c=document.getElementById('quoteCard');c.innerHTML='<span class="tag">Done</span><h3>'+t+'</h3><p>We will confirm the next steps by phone or email within one working day.</p>';}
-document.getElementById('qOk').addEventListener('click',function(){answer('Quote approved. Thank you.');});
-document.getElementById('qNo').addEventListener('click',function(){answer('Quote declined. No work will be done.');});
-})();
-</script>
-<script>
-(function(){
 var $=function(i){return document.getElementById(i);};
 var DB=null,unsub=null,rows=[],ST=['Pending','Confirmed','Completed','Cancelled'];
 function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -424,7 +398,7 @@ function money(n){return '\u00a3'+Math.round(n).toLocaleString('en-GB');}
 function pd(x){var q=String(x).split('-');return new Date(+q[0],+q[1]-1,+q[2]);}
 function dl(a,b){return b?((a>=b?'+':'')+Math.round((a-b)/b*100)+'% on last month'):'No data for last month';}
 
-var sb=window.supabase.createClient('https://hatghwzloxqfgveikmta.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhdGdod3psb3hxZmd2ZWlrbXRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNjE3NDEsImV4cCI6MjEwODczNzc0MX0._Ko2nJP1NHe2r7eaprIncVvFwrpllreuxRbXcAthT7s'),chan=null;
+var sb=window.sb,chan=null;
 async function load(){
   var r=await sb.from('bookings').select('*').order('date',{ascending:false});
   if(r.error){$('live').textContent='Could not load bookings. Reload the page.';return;}
@@ -442,11 +416,13 @@ $('adForm').addEventListener('submit',async function(e){
   e.preventDefault();var err=$('aErr');err.textContent='';
   var r=await sb.auth.signInWithPassword({email:$('ae').value.trim(),password:$('ap').value});
   if(r.error){err.textContent='Wrong email or password.';return;}
+  var o=await sb.rpc('is_owner');
+  if(o.error||o.data!==true){await sb.auth.signOut();err.textContent='This account is not the owner account.';return;}
   $('ap').value='';enter();
 });
 $('adOut').addEventListener('click',async function(){await sb.auth.signOut();if(DB)leave();});
 sb.auth.onAuthStateChange(function(ev){if(ev==='SIGNED_OUT'&&DB)leave();});
-function resume(){if(location.hash==='#admin'&&!DB)sb.auth.getSession().then(function(r){if(r.data.session&&!DB)enter();});}
+function resume(){if(location.hash==='#admin'&&!DB)sb.auth.getSession().then(async function(r){if(!r.data.session||DB)return;var o=await sb.rpc('is_owner');if(o.data===true&&!DB)enter();});}
 window.addEventListener('hashchange',resume);resume();
 
 var tabs=document.querySelectorAll('.tabs button');
@@ -538,6 +514,82 @@ $('zReset').addEventListener('click',function(){
   $('zName').value=D.name;$('zHead').value=D.head;$('zPhone').value=D.phone;$('zMail').value=D.mail;$('zBan').checked=false;col=D.col;
   document.querySelectorAll('.sw').forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-c')===col);});apply();
 });
+})();
+</script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i);},sb=window.sb,mode='in';
+var L=$('acctLogin'),H=$('acctHome');
+function show(on){L.hidden=on;H.hidden=!on;}
+function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function pd(x){var q=String(x).split('-');return new Date(+q[0],+q[1]-1,+q[2]);}
+function fd(x){return pd(x).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});}
+function fs(x){return pd(x).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function msg(t,good){var p=$('lErr');p.textContent=t;p.style.color=good?'var(--ink)':'#B5462F';}
+function setMode(m){
+  mode=m;var up=m==='up';
+  $('aTitle').textContent=up?'Create your account':'My account';
+  $('lBtn').textContent=up?'Create account':'Sign in';
+  $('swTxt').textContent=up?'Already have an account?':'New here?';
+  $('swMode').textContent=up?'Sign in':'Create an account';
+  $('lp').setAttribute('autocomplete',up?'new-password':'current-password');
+  msg('');
+}
+$('swMode').addEventListener('click',function(e){e.preventDefault();setMode(mode==='in'?'up':'in');});
+
+$('loginForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  var em=$('le').value.trim(),pw=$('lp').value;
+  if(em.indexOf('@')<1){msg('Enter your email address.');return;}
+  if(pw.length<8){msg('Use a password of at least 8 characters.');return;}
+  msg('');$('lBtn').disabled=true;
+  try{
+    if(mode==='up'){
+      var r=await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.origin+'/#account'}});
+      if(r.error){msg('Could not create the account. Please try again in a few minutes.');}
+      else{setMode('in');msg('Almost done. We sent a confirmation link to '+em+'. Open it, then come back here and sign in.',true);}
+    }else{
+      var r2=await sb.auth.signInWithPassword({email:em,password:pw});
+      if(r2.error){msg(r2.error.message==='Email not confirmed'?'Please confirm your email first. Check your inbox for the link.':'Wrong email or password.');}
+      else{$('lp').value='';await loadAccount();window.scrollTo(0,0);}
+    }
+  }finally{$('lBtn').disabled=false;}
+});
+$('signOut').addEventListener('click',async function(){await sb.auth.signOut();show(false);window.scrollTo(0,0);});
+sb.auth.onAuthStateChange(function(ev){if(ev==='SIGNED_OUT')setTimeout(function(){show(false);},0);});
+
+async function loadAccount(){
+  var s=await sb.auth.getSession(),ses=s.data.session;
+  if(!ses){show(false);return;}
+  var em=(ses.user.email||'').toLowerCase();
+  var r=await sb.from('bookings').select('*').order('date',{ascending:true});
+  show(true);
+  if(r.error){$('aMsg').textContent='Could not load your bookings. Please reload the page.';return;}
+  $('aMsg').textContent='';
+  var mine=r.data.filter(function(x){return (x.email||'').toLowerCase()===em;});
+  var nm=mine.length?String(mine[mine.length-1].name||'').split(' ')[0]:em.split('@')[0];
+  $('hello').textContent='Welcome back, '+nm;
+  var today=ymd(new Date()),nx=mine.filter(function(x){return x.date>=today&&(x.status==='Pending'||x.status==='Confirmed');})[0];
+  $('nextCard').innerHTML=nx
+    ?'<span class="tag">Next booking · '+(nx.status==='Confirmed'?'Confirmed':'Awaiting confirmation')+'</span><h3>'+esc(nx.svc)+'</h3><p>'+esc(fd(nx.date))+(nx.time?', '+esc(nx.time):'')+'<br>'+esc(nx.car)+'</p><a class="btn line sm" href="#contact">Change or cancel</a>'
+    :'<span class="tag">Next booking</span><h3>Nothing booked yet</h3><p>Your next booking will appear here.</p><a class="btn sm" href="#booking">Book a service</a>';
+  var cars={};
+  mine.forEach(function(x){var k=String(x.car||'').trim().toLowerCase();if(!k)return;var c=cars[k]||(cars[k]={n:x.car,last:''});if(x.status==='Completed'&&x.date>c.last)c.last=x.date;});
+  var ck=Object.keys(cars);
+  $('carList').innerHTML=ck.length?ck.map(function(k,i){var c=cars[k];return '<dt'+(i?'':' style="margin-top:0"')+'>'+esc(c.n)+'</dt><dd>'+(c.last?'Last service '+esc(fs(c.last)):'No completed service yet')+'</dd>';}).join(''):'<dd style="margin:0;color:var(--muted)">Vehicles you book will be listed here.</dd>';
+  var h='<tr><th>Date</th><th>Vehicle</th><th>Service</th><th>Status</th><th class="r">Invoice</th></tr>';
+  if(!mine.length)h+='<tr><td colspan="5">No bookings yet.</td></tr>';
+  mine.slice().reverse().forEach(function(x){
+    var inv=x.status==='Completed'&&+x.value>0?'\u00a3'+Number(x.value).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2}):'-';
+    h+='<tr><td>'+esc(fs(x.date))+'</td><td>'+esc(x.car)+'</td><td>'+esc(x.svc)+'</td><td>'+esc(x.status)+'</td><td class="r">'+inv+'</td></tr>';
+  });
+  $('hist').innerHTML=h;
+  if($('be')&&!$('be').value)$('be').value=ses.user.email;
+}
+function resume(){if(location.hash==='#account')loadAccount();}
+window.addEventListener('hashchange',resume);
+window.addEventListener('load',resume);
 })();
 </script>
 </body>
