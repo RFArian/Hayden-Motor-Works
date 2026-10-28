@@ -118,6 +118,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 @media (max-width:820px){.kpis{grid-template-columns:1fr 1fr}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <header><div class="wrap bar">
@@ -484,7 +488,11 @@ function render(){
 $('bTable').addEventListener('change',function(e){
   var t=e.target,id=t.getAttribute('data-s')||t.getAttribute('data-v');if(!id||!DB)return;
   var p=t.hasAttribute('data-s')?{status:t.value}:{value:Math.max(0,+t.value||0)};
-  sb.from('bookings').update(p).eq('id',id).then(function(r){if(r.error)$('live').textContent='Could not save that change.';else load();});
+  var row=rows.filter(function(x){return x.id===id;})[0];
+  sb.from('bookings').update(p).eq('id',id).then(function(r){
+    if(r.error){$('live').textContent='Could not save that change.';return;}
+    load().then(function(){if(p.status==='Confirmed')$('live').textContent=row&&row.email?'Confirmed. A confirmation email will be sent to '+row.email+'.':'Confirmed. This booking has no email address, so no confirmation was sent.';});
+  });
 });
 $('bf').addEventListener('change',render);
 $('nAdd').addEventListener('click',function(){
