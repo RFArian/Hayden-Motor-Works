@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Halden Motor Works</title>
 <meta name="theme-color" content="#0B5BFF">
-<script>document.documentElement.className="js";</script>
+<script>document.documentElement.className="js";
+var PH_EXT=['.jpg','.jpg.png','.png','.jpeg','.webp','.JPG','.PNG','.jpg.jpg'];
+function phNext(img){var i=(+img.getAttribute('data-i')||0)+1;if(i>=PH_EXT.length){img.remove();return;}img.setAttribute('data-i',i);img.src='images/'+img.getAttribute('data-n')+PH_EXT[i];}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
@@ -273,7 +276,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 
 <main>
 <div class="page" id="p-home">
-<div class="hero"><figure class="ph"><img src="images/hero.jpg" alt="A customer car on a lift in the workshop" fetchpriority="high" onerror="this.remove()"></figure>
+<div class="hero"><figure class="ph"><img src="images/hero.jpg" data-n="hero" data-i="0" alt="A customer car on a lift in the workshop" fetchpriority="high" onerror="phNext(this)"></figure>
 <svg class="roundel" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="rc" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="96" fill="#0B5BFF" fill-opacity=".94" stroke="#fff" stroke-width="3"/><text font-family="Oswald,Arial,sans-serif" font-size="13" font-weight="600" fill="#fff"><textPath href="#rc" textLength="470" lengthAdjust="spacing">INDEPENDENT VEHICLE SPECIALISTS · SINCE 2009 ·</textPath></text><g transform="translate(76 76) scale(2)" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></g></svg>
 <div class="wrap"><div>
 <p class="eyebrow">Independent vehicle specialists</p>
@@ -293,13 +296,13 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 <section class="block"><div class="wrap">
 <div class="reveal"><span class="kick">What we do</span><h2>Servicing, diagnostics and repair</h2><p class="lead">Fixed prices for common jobs. Anything else is quoted in writing before work begins.</p></div>
 <div class="tiles">
-<article class="tile reveal"><figure class="ph"><img src="images/servicing.jpg" alt="A technician servicing a car engine" loading="lazy" onerror="this.remove()"></figure><div class="tb"><h3>Servicing</h3><p>Interim and full services to manufacturer schedule, with genuine parts and a road test.</p><a class="more" href="#services">See prices</a></div></article>
-<article class="tile reveal d1"><figure class="ph"><img src="images/diagnostics.jpg" alt="Diagnostic equipment connected to a car" loading="lazy" onerror="this.remove()"></figure><div class="tb"><h3>Diagnostics</h3><p>Full-system scans and live data analysis, so faults are found, not guessed at.</p><a class="more" href="#services">See prices</a></div></article>
-<article class="tile reveal d2"><figure class="ph"><img src="images/brakes.jpg" alt="A brake disc and caliper on a car" loading="lazy" onerror="this.remove()"></figure><div class="tb"><h3>Brakes and suspension</h3><p>Pads, discs, fluid and dampers, fitted to manufacturer torque specifications.</p><a class="more" href="#services">See prices</a></div></article>
+<article class="tile reveal"><figure class="ph"><img src="images/servicing.jpg" data-n="servicing" data-i="0" alt="A technician servicing a car engine" loading="lazy" onerror="phNext(this)"></figure><div class="tb"><h3>Servicing</h3><p>Interim and full services to manufacturer schedule, with genuine parts and a road test.</p><a class="more" href="#services">See prices</a></div></article>
+<article class="tile reveal d1"><figure class="ph"><img src="images/diagnostics.jpg" data-n="diagnostics" data-i="0" alt="Diagnostic equipment connected to a car" loading="lazy" onerror="phNext(this)"></figure><div class="tb"><h3>Diagnostics</h3><p>Full-system scans and live data analysis, so faults are found, not guessed at.</p><a class="more" href="#services">See prices</a></div></article>
+<article class="tile reveal d2"><figure class="ph"><img src="images/brakes.jpg" data-n="brakes" data-i="0" alt="A brake disc and caliper on a car" loading="lazy" onerror="phNext(this)"></figure><div class="tb"><h3>Brakes and suspension</h3><p>Pads, discs, fluid and dampers, fitted to manufacturer torque specifications.</p><a class="more" href="#services">See prices</a></div></article>
 </div></div></section>
 
 <section class="block alt"><div class="wrap split">
-<div class="reveal"><figure class="ph"><img src="images/workshop.jpg" alt="Inside the workshop with a car on a lift" loading="lazy" onerror="this.remove()"></figure></div>
+<div class="reveal"><figure class="ph"><img src="images/workshop.jpg" data-n="workshop" data-i="0" alt="Inside the workshop with a car on a lift" loading="lazy" onerror="phNext(this)"></figure></div>
 <div class="reveal d1"><span class="kick">Our standards</span><h2>Workshop standards, not workshop guesswork.</h2>
 <p class="lead">We photograph worn parts, explain what needs doing today and what can wait, and only start once you have approved the price.</p>
 <ul class="chk"><li>Written quote before any work begins</li><li>Factory-trained technicians and main-dealer diagnostic tools</li><li>Old parts returned on request</li><li>No surprise charges at collection</li></ul>
@@ -308,14 +311,14 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 
 <section class="block"><div class="wrap">
 <div class="reveal"><span class="kick">In the workshop</span><h2>Cars we look after</h2></div>
-<div class="gal"><figure class="ph"><img src="images/car-1.jpg" alt="A performance car in the workshop" loading="lazy" onerror="this.remove()"></figure><figure class="ph"><img src="images/car-2.jpg" alt="A premium saloon after a service" loading="lazy" onerror="this.remove()"></figure><figure class="ph"><img src="images/car-3.jpg" alt="A sports car on the ramp" loading="lazy" onerror="this.remove()"></figure><figure class="ph"><img src="images/car-4.jpg" alt="A classic car being worked on" loading="lazy" onerror="this.remove()"></figure></div>
+<div class="gal"><figure class="ph"><img src="images/car-1.jpg" data-n="car-1" data-i="0" alt="A performance car in the workshop" loading="lazy" onerror="phNext(this)"></figure><figure class="ph"><img src="images/car-2.jpg" data-n="car-2" data-i="0" alt="A premium saloon after a service" loading="lazy" onerror="phNext(this)"></figure><figure class="ph"><img src="images/car-3.jpg" data-n="car-3" data-i="0" alt="A sports car on the ramp" loading="lazy" onerror="phNext(this)"></figure><figure class="ph"><img src="images/car-4.jpg" data-n="car-4" data-i="0" alt="A classic car being worked on" loading="lazy" onerror="phNext(this)"></figure></div>
 </div></section>
 
 <div class="cta-band reveal"><div class="wrap"><h2>Ready to book your service?</h2><p>Choose a service and a time. We confirm within one working day.</p><a class="btn white" href="#booking">Book a service</a></div></div>
 </div>
 
 <div class="page" id="p-services" hidden>
-<div class="phero"><figure class="ph"><img src="images/diagnostics.jpg" alt="Diagnostic equipment connected to a car" onerror="this.remove()"></figure><div class="wrap"><h1>Services</h1><p>Fixed prices for common jobs. Anything else is quoted in writing before work begins.</p></div></div>
+<div class="phero"><figure class="ph"><img src="images/diagnostics.jpg" data-n="diagnostics" data-i="0" alt="Diagnostic equipment connected to a car" onerror="phNext(this)"></figure><div class="wrap"><h1>Services</h1><p>Fixed prices for common jobs. Anything else is quoted in writing before work begins.</p></div></div>
 <div class="stripe" aria-hidden="true"></div>
 <section class="block"><div class="wrap">
 <ul class="svc" style="margin-top:0"><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></span><div><h3>Interim service</h3><p>Oil and filter, fluid levels, brake and tyre check, 40-point inspection.</p></div><span class="time">About 1.5 hours</span><span class="price">From $119</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><div><h3>Full service</h3><p>Everything in the interim service plus air, cabin and fuel filters, spark plugs where due, and a road test.</p></div><span class="time">About 3 hours</span><span class="price">From $229</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 13l3.5-4M12 5.2v1.6M5.2 13h1.6M17.2 13h1.6"/></svg></span><div><h3>Diagnostics</h3><p>Full-system scan, live data analysis and a written fault report, with the fee credited against any repair.</p></div><span class="time">About 1 hour</span><span class="price">From $79</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="6.4" r=".9"/><circle cx="17" cy="9.2" r=".9"/><circle cx="17" cy="14.8" r=".9"/><circle cx="12" cy="17.6" r=".9"/><circle cx="7" cy="14.8" r=".9"/><circle cx="7" cy="9.2" r=".9"/></svg></span><div><h3>Brakes and suspension</h3><p>Pads, discs, fluid, dampers and bushes, fitted and bedded in to manufacturer torque specifications.</p></div><span class="time">2 to 5 hours</span><span class="price">From $149</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 7.5v9M7.5 12h9"/></svg></span><div><h3>Tyres and alignment</h3><p>Supply and fitting, balancing, and laser four-wheel alignment.</p></div><span class="time">About 1 hour</span><span class="price">From $89</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg></span><div><h3>Air conditioning</h3><p>Leak testing, regas and compressor replacement.</p></div><span class="time">1 to 2 hours</span><span class="price">From $99</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 3h6v4H9zM9 14l2 2 4-4"/></svg></span><div><h3>Pre-purchase inspection</h3><p>A detailed written report on any used car before you buy, including paint depth and underbody checks.</p></div><span class="time">About 2 hours</span><span class="price">From $139</span></li></ul>
@@ -324,7 +327,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 </div>
 
 <div class="page" id="p-about" hidden>
-<div class="phero"><figure class="ph"><img src="images/team.jpg" alt="The workshop team" onerror="this.remove()"></figure><div class="wrap"><h1>About us</h1></div></div>
+<div class="phero"><figure class="ph"><img src="images/team.jpg" data-n="team" data-i="0" alt="The workshop team" onerror="phNext(this)"></figure><div class="wrap"><h1>About us</h1></div></div>
 <div class="stripe" aria-hidden="true"></div>
 <section class="block"><div class="wrap split">
 <div class="reveal">
@@ -334,7 +337,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 <h3 style="margin-top:1.8rem">What we hold ourselves to</h3>
 <ul class="chk"><li>Written quotes before work</li><li>Old parts returned on request</li><li>No surprise charges at collection</li></ul>
 </div>
-<div class="reveal d1"><figure class="ph"><img src="images/workshop.jpg" alt="Inside the workshop with a car on a lift" loading="lazy" onerror="this.remove()"></figure></div>
+<div class="reveal d1"><figure class="ph"><img src="images/workshop.jpg" data-n="workshop" data-i="0" alt="Inside the workshop with a car on a lift" loading="lazy" onerror="phNext(this)"></figure></div>
 </div></section>
 <section class="block alt"><div class="wrap reveal">
 <div class="facts" style="background:none"><div class="wrap" style="width:100%;padding-block:0">
@@ -346,7 +349,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 </div>
 
 <div class="page" id="p-booking" hidden>
-<div class="phero"><figure class="ph"><img src="images/car-2.jpg" alt="A premium saloon after a service" onerror="this.remove()"></figure><div class="wrap"><h1>Book a service</h1><p>Choose a service and a time. We will confirm by phone or email within one working day.</p></div></div>
+<div class="phero"><figure class="ph"><img src="images/car-2.jpg" data-n="car-2" data-i="0" alt="A premium saloon after a service" onerror="phNext(this)"></figure><div class="wrap"><h1>Book a service</h1><p>Choose a service and a time. We will confirm by phone or email within one working day.</p></div></div>
 <div class="stripe" aria-hidden="true"></div>
 <section class="block"><div class="wrap" style="max-width:760px">
 <div class="panel" id="bookPanel">
@@ -369,7 +372,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 </div>
 
 <div class="page" id="p-contact" hidden>
-<div class="phero"><figure class="ph"><img src="images/workshop.jpg" alt="Inside the workshop with a car on a lift" onerror="this.remove()"></figure><div class="wrap"><h1>Contact</h1><p>Call, email or visit. For a quote, include your registration and a short description of the job.</p></div></div>
+<div class="phero"><figure class="ph"><img src="images/workshop.jpg" data-n="workshop" data-i="0" alt="Inside the workshop with a car on a lift" onerror="phNext(this)"></figure><div class="wrap"><h1>Contact</h1><p>Call, email or visit. For a quote, include your registration and a short description of the job.</p></div></div>
 <div class="stripe" aria-hidden="true"></div>
 <section class="block"><div class="wrap cols">
 <div>
