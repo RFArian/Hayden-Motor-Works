@@ -192,6 +192,13 @@ a.svclink:hover,.svc li:hover a.svclink{color:var(--accent-d)}
 .sdmore a:hover{border-color:var(--accent);background:var(--bg)}
 @media (max-width:820px){#svcDetail .ph{order:-1}}
 
+/* customer history */
+button.cust{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--accent-d);text-decoration:underline;cursor:pointer;text-align:left}
+button.cust:hover{color:var(--navy)}
+#custCard{border-top:4px solid var(--accent)}
+#custCard .kpis{margin:1rem 0}
+#custCard .kpi b{font-size:1.5rem}
+
 /* booking service picker */
 fieldset.svcpick{border:0;margin:0 0 1rem;padding:0;min-width:0}
 fieldset.svcpick legend{font-weight:600;font-size:.95rem;margin-bottom:.5rem;padding:0}
@@ -514,6 +521,17 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 <div class='row'><div class='field'><label for='nName'>Customer</label><input id='nName'></div><div class='field'><label for='nCar'>Vehicle</label><input id='nCar'></div></div>
 <div class='row'><div class='field'><label for='nSvc'>Service</label><select id='nSvc'><option>Interim service</option><option>Full service</option><option>Diagnostics</option><option>Brakes and suspension</option><option>Tyres and alignment</option><option>Air conditioning</option><option>Pre-purchase inspection</option><option>Something else</option></select></div><div class='field'><label for='nDate'>Date</label><input id='nDate' type='text' inputmode='numeric' placeholder='dd/mm/yyyy' maxlength='10' autocomplete='off'></div></div>
 <p id='nErr' role='alert' style='color:#B5462F;min-height:1.5em;margin:0 0 .5rem'></p><button class='btn sm' id='nAdd' type='button'>Add booking</button></div>
+<div class='card' id='custCard' hidden style='margin-bottom:1.2rem' tabindex='-1'>
+<div class='acctbar'><div><h3 id='cuName' style='margin:0'></h3><p id='cuContact' style='margin:.2rem 0 0'></p></div><button class='btn line sm' id='cuClose' type='button'>Close</button></div>
+<div class='kpis'>
+<div class='card kpi'><span>Bookings</span><b id='cuN'>0</b><em id='cuNd'></em></div>
+<div class='card kpi'><span>Completed jobs</span><b id='cuDone'>0</b><em id='cuDoned'></em></div>
+<div class='card kpi'><span>Total spent</span><b id='cuSpent'>&pound;0</b><em>On completed jobs</em></div>
+<div class='card kpi'><span>First visit</span><b id='cuFirst'>-</b><em id='cuLast'></em></div>
+</div>
+<p style='margin:0 0 .6rem'><b>Vehicles:</b> <span id='cuCars'></span></p>
+<div class='scroll'><table class='hist' id='cuTable'></table></div>
+</div>
 <div class='field' style='max-width:240px'><label for='bf'>Show</label><select id='bf'><option value=''>All bookings</option><option>Pending</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option></select></div>
 <div class='scroll'><table class='hist' id='bTable'></table></div>
 </div>
@@ -651,7 +669,7 @@ function enter(){
   if(!chan)chan=sb.channel('bookings-live').on('postgres_changes',{event:'*',schema:'public',table:'bookings'},load).subscribe();
 }
 function leave(){
-  DB=null;if(chan){sb.removeChannel(chan);chan=null;}rows=[];
+  DB=null;if(chan){sb.removeChannel(chan);chan=null;}rows=[];cur=null;$('custCard').hidden=true;
   $('adHome').hidden=true;$('adLogin').hidden=false;window.scrollTo(0,0);
 }
 $('adForm').addEventListener('submit',async function(e){
@@ -699,9 +717,9 @@ function render(){
   if(!list.length)h+='<tr><td colspan="7">No bookings here yet. They appear the moment they are made.</td></tr>';
   list.forEach(function(r){
     var o=ST.map(function(x){return '<option'+(x===r.status?' selected':'')+'>'+x+'</option>';}).join('');
-    h+='<tr><td>'+esc(window.__D.fmt(r.date))+'</td><td>'+esc(r.name)+'<br><small style="color:var(--muted)">'+esc(r.phone||r.email||'')+'</small></td><td>'+esc(r.car)+'</td><td>'+esc(r.svc)+'</td><td>'+esc(window.__estTxt(r.svc))+'</td><td><input type="number" min="0" step="1" style="width:6rem;padding:.35rem .5rem" data-v="'+esc(r.id)+'" value="'+(+r.value||'')+'" aria-label="Value for '+esc(r.name)+'"></td><td><select data-s="'+esc(r.id)+'" aria-label="Status for '+esc(r.name)+'">'+o+'</select></td></tr>';
+    h+='<tr><td>'+esc(window.__D.fmt(r.date))+'</td><td><button type="button" class="cust" data-cust="'+esc(r.id)+'">'+esc(r.name)+'</button><br><small style="color:var(--muted)">'+esc(r.phone||r.email||'')+'</small></td><td>'+esc(r.car)+'</td><td>'+esc(r.svc)+'</td><td>'+esc(window.__estTxt(r.svc))+'</td><td><input type="number" min="0" step="1" style="width:6rem;padding:.35rem .5rem" data-v="'+esc(r.id)+'" value="'+(+r.value||'')+'" aria-label="Value for '+esc(r.name)+'"></td><td><select data-s="'+esc(r.id)+'" aria-label="Status for '+esc(r.name)+'">'+o+'</select></td></tr>';
   });
-  $('bTable').innerHTML=h;
+  $('bTable').innerHTML=h;if(cur)showCust(cur,true);
 }
 $('bTable').addEventListener('change',function(e){
   var t=e.target,id=t.getAttribute('data-s')||t.getAttribute('data-v');if(!id||!DB)return;
@@ -709,10 +727,46 @@ $('bTable').addEventListener('change',function(e){
   var row=rows.filter(function(x){return x.id===id;})[0];
   sb.from('bookings').update(p).eq('id',id).then(function(r){
     if(r.error){$('live').textContent='Could not save that change.';return;}
-    load().then(function(){if(p.status==='Confirmed')$('live').textContent=row&&row.email?'Confirmed. A confirmation email will be sent to '+row.email+'.':'Confirmed. This booking has no email address, so no confirmation was sent.';});
+    load().then(function(){if(p.status==='Completed')$('live').textContent=row&&row.email?'Completed. A thank-you email will be sent to '+row.email+'.':'Completed. This booking has no email address, so no thank-you was sent.';else if(p.status==='Confirmed')$('live').textContent=row&&row.email?'Confirmed. A confirmation email will be sent to '+row.email+'.':'Confirmed. This booking has no email address, so no confirmation was sent.';});
   });
 });
 $('bf').addEventListener('change',render);
+
+/* customer history: click a name in the bookings table */
+var cur=null;
+function same(r,c){
+  var em=(c.email||'').toLowerCase(),nm=(c.name||'').trim().toLowerCase();
+  if(em)return (r.email||'').toLowerCase()===em;
+  return !(r.email||'')&&String(r.name||'').trim().toLowerCase()===nm;
+}
+function showCust(c,quiet){
+  var list=rows.filter(function(r){return same(r,c);}).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0;});
+  if(!list.length){cur=null;$('custCard').hidden=true;return;}
+  cur=c;
+  var done=list.filter(function(r){return r.status==='Completed';}),live=list.filter(function(r){return r.status!=='Cancelled';}),spent=0,cars={},phone='',asc=list.slice().reverse();
+  done.forEach(function(r){spent+=+r.value||0;});
+  list.forEach(function(r){if(!phone&&r.phone)phone=r.phone;var k=String(r.car||'').trim();if(k)cars[k]=1;});
+  $('cuName').textContent=c.name;
+  $('cuContact').textContent=[c.email,phone].filter(Boolean).join(' · ')||'No contact details on file';
+  $('cuN').textContent=live.length;$('cuNd').textContent=list.length-live.length?(list.length-live.length)+' cancelled':'';
+  $('cuDone').textContent=done.length;$('cuDoned').textContent=live.length-done.length?(live.length-done.length)+' not yet completed':'';
+  $('cuSpent').textContent=money(spent);
+  $('cuFirst').textContent=window.__D.fmt(asc[0].date);$('cuLast').textContent='Latest booking '+window.__D.fmt(list[0].date);
+  $('cuCars').textContent=Object.keys(cars).join(', ')||'-';
+  var h='<tr><th>Date</th><th>Vehicle</th><th>Service</th><th>Status</th><th>Estimate</th><th class="r">Value</th><th>Notes</th></tr>';
+  list.forEach(function(r){
+    h+='<tr><td>'+esc(window.__D.fmt(r.date))+(r.time?'<br><small style="color:var(--muted)">'+esc(r.time)+'</small>':'')+'</td><td>'+esc(r.car)+'</td><td>'+esc(r.svc)+'</td><td>'+esc(r.status)+'</td><td>'+esc(window.__estTxt(r.svc))+'</td><td class="r">'+(r.status==='Completed'&&+r.value>0?money(r.value):'-')+'</td><td style="max-width:22ch"><small style="color:var(--muted)">'+esc(String(r.notes||'').split('\n\nEstimated total:')[0]||'-')+'</small></td></tr>';
+  });
+  $('cuTable').innerHTML=h;
+  $('custCard').hidden=false;
+  if(!quiet){$('custCard').scrollIntoView({behavior:'smooth',block:'start'});$('custCard').focus({preventScroll:true});}
+}
+$('bTable').addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('button.cust');if(!b)return;
+  var row=rows.filter(function(x){return String(x.id)===b.getAttribute('data-cust');})[0];
+  if(row)showCust({name:row.name,email:row.email||''});
+});
+$('cuClose').addEventListener('click',function(){cur=null;$('custCard').hidden=true;});
 $('nAdd').addEventListener('click',function(){
   var n=$('nName').value.trim(),c=$('nCar').value.trim(),d=window.__D.iso($('nDate').value.trim());
   if(!DB)return;
