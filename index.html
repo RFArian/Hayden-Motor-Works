@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0B5BFF">
 <script>document.documentElement.className="js";
 var PH_EXT=['.jpg','.jpg.png','.png','.jpeg','.webp','.JPG','.PNG','.jpg.jpg'];
-function phNext(img){var i=(+img.getAttribute('data-i')||0)+1;if(i>=PH_EXT.length){img.remove();return;}img.setAttribute('data-i',i);img.src='images/'+img.getAttribute('data-n')+PH_EXT[i];}
+function phNext(img){var i=(+img.getAttribute('data-i')||0)+1;if(i>=PH_EXT.length){var fb=img.getAttribute('data-fb');if(fb){img.removeAttribute('data-fb');img.setAttribute('data-n',fb);img.setAttribute('data-i',0);img.src='images/'+fb+PH_EXT[0];return;}img.remove();return;}img.setAttribute('data-i',i);img.src='images/'+img.getAttribute('data-n')+PH_EXT[i];}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -175,6 +175,23 @@ table{border-collapse:collapse;width:100%;max-width:420px}
 td{padding:.45rem 0;border-bottom:1px solid var(--line)}
 td:last-child{text-align:right;color:var(--muted)}
 
+/* service links and detail view */
+.svc li{position:relative;cursor:pointer}
+a.svclink{text-decoration:none;color:inherit}
+a.svclink::after{content:"";position:absolute;inset:0}
+a.svclink:hover,.svc li:hover a.svclink{color:var(--accent-d)}
+.svc li:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.back{display:inline-block;margin-bottom:1.4rem;font:600 .95rem var(--head);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--accent-d)}
+.back:hover{text-decoration:underline}
+.sdmeta{display:flex;gap:2rem;flex-wrap:wrap;margin:0 0 1.2rem}
+.sdmeta div{border-left:4px solid var(--accent);padding-left:.9rem}
+.sdmeta b{display:block;font:700 1.6rem var(--head);color:var(--navy);line-height:1.1}
+.sdmeta span{color:var(--muted);font-size:.95rem}
+.sdmore{margin-top:3rem;padding-top:1.6rem;border-top:1px solid var(--line)}
+.sdmore a{display:inline-block;margin:.3rem .5rem .3rem 0;padding:.4rem .9rem;border:1px solid var(--line);border-radius:99px;text-decoration:none;font-size:.95rem;color:var(--navy)}
+.sdmore a:hover{border-color:var(--accent);background:var(--bg)}
+@media (max-width:820px){#svcDetail .ph{order:-1}}
+
 /* booking service picker */
 fieldset.svcpick{border:0;margin:0 0 1rem;padding:0;min-width:0}
 fieldset.svcpick legend{font-weight:600;font-size:.95rem;margin-bottom:.5rem;padding:0}
@@ -341,8 +358,25 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 <div class="phero"><figure class="ph"><img src="images/diagnostics.jpg" data-n="diagnostics" data-i="0" alt="Diagnostic equipment connected to a car" onerror="phNext(this)"></figure><div class="wrap"><h1>Services</h1><p>Fixed prices for common jobs. Anything else is quoted in writing before work begins.</p></div></div>
 <div class="stripe" aria-hidden="true"></div>
 <section class="block"><div class="wrap">
-<ul class="svc" style="margin-top:0"><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></span><div><h3>Interim service</h3><p>Oil and filter, fluid levels, brake and tyre check, 40-point inspection.</p></div><span class="time">About 1.5 hours</span><span class="price">From $119</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><div><h3>Full service</h3><p>Everything in the interim service plus air, cabin and fuel filters, spark plugs where due, and a road test.</p></div><span class="time">About 3 hours</span><span class="price">From $229</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 13l3.5-4M12 5.2v1.6M5.2 13h1.6M17.2 13h1.6"/></svg></span><div><h3>Diagnostics</h3><p>Full-system scan, live data analysis and a written fault report, with the fee credited against any repair.</p></div><span class="time">About 1 hour</span><span class="price">From $79</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="6.4" r=".9"/><circle cx="17" cy="9.2" r=".9"/><circle cx="17" cy="14.8" r=".9"/><circle cx="12" cy="17.6" r=".9"/><circle cx="7" cy="14.8" r=".9"/><circle cx="7" cy="9.2" r=".9"/></svg></span><div><h3>Brakes and suspension</h3><p>Pads, discs, fluid, dampers and bushes, fitted and bedded in to manufacturer torque specifications.</p></div><span class="time">2 to 5 hours</span><span class="price">From $149</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 7.5v9M7.5 12h9"/></svg></span><div><h3>Tyres and alignment</h3><p>Supply and fitting, balancing, and laser four-wheel alignment.</p></div><span class="time">About 1 hour</span><span class="price">From $89</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg></span><div><h3>Air conditioning</h3><p>Leak testing, regas and compressor replacement.</p></div><span class="time">1 to 2 hours</span><span class="price">From $99</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 3h6v4H9zM9 14l2 2 4-4"/></svg></span><div><h3>Pre-purchase inspection</h3><p>A detailed written report on any used car before you buy, including paint depth and underbody checks.</p></div><span class="time">About 2 hours</span><span class="price">From $139</span></li></ul>
+<p class="lead" style="margin:0 0 1.2rem">Select a service to see what is included.</p><ul class="svc" style="margin-top:0"><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></span><div><h3><a class="svclink" href="#services/interim-service">Interim service</a></h3><p>Oil and filter, fluid levels, brake and tyre check, 40-point inspection.</p></div><span class="time">About 1.5 hours</span><span class="price">From $119</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><div><h3><a class="svclink" href="#services/full-service">Full service</a></h3><p>Everything in the interim service plus air, cabin and fuel filters, spark plugs where due, and a road test.</p></div><span class="time">About 3 hours</span><span class="price">From $229</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 13l3.5-4M12 5.2v1.6M5.2 13h1.6M17.2 13h1.6"/></svg></span><div><h3><a class="svclink" href="#services/diagnostics">Diagnostics</a></h3><p>Full-system scan, live data analysis and a written fault report, with the fee credited against any repair.</p></div><span class="time">About 1 hour</span><span class="price">From $79</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="6.4" r=".9"/><circle cx="17" cy="9.2" r=".9"/><circle cx="17" cy="14.8" r=".9"/><circle cx="12" cy="17.6" r=".9"/><circle cx="7" cy="14.8" r=".9"/><circle cx="7" cy="9.2" r=".9"/></svg></span><div><h3><a class="svclink" href="#services/brakes-and-suspension">Brakes and suspension</a></h3><p>Pads, discs, fluid, dampers and bushes, fitted and bedded in to manufacturer torque specifications.</p></div><span class="time">2 to 5 hours</span><span class="price">From $149</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 7.5v9M7.5 12h9"/></svg></span><div><h3><a class="svclink" href="#services/tyres-and-alignment">Tyres and alignment</a></h3><p>Supply and fitting, balancing, and laser four-wheel alignment.</p></div><span class="time">About 1 hour</span><span class="price">From $89</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg></span><div><h3><a class="svclink" href="#services/air-conditioning">Air conditioning</a></h3><p>Leak testing, regas and compressor replacement.</p></div><span class="time">1 to 2 hours</span><span class="price">From $99</span></li><li class="reveal"><span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 3h6v4H9zM9 14l2 2 4-4"/></svg></span><div><h3><a class="svclink" href="#services/pre-purchase-inspection">Pre-purchase inspection</a></h3><p>A detailed written report on any used car before you buy, including paint depth and underbody checks.</p></div><span class="time">About 2 hours</span><span class="price">From $139</span></li></ul>
 <div class="actions"><a class="btn" href="#booking">Book a service</a></div>
+</div></section>
+<section class="block" id="svcDetail" hidden><div class="wrap">
+<a class="back" href="#services">&larr; All services</a>
+<div class="split">
+<div>
+<span class="kick" id="sdKick">Service</span>
+<h2 id="sdTitle"></h2>
+<p class="lead" id="sdLead"></p>
+<p id="sdBody"></p>
+<div class="sdmeta"><div><b id="sdPrice"></b><span>Estimated price</span></div><div><b id="sdTime"></b><span>Typical time</span></div></div>
+<h3>What is included</h3>
+<ul class="chk" id="sdList"></ul>
+<div class="actions"><button class="btn" id="sdBook" type="button">Book this service</button><a class="btn line" href="#services">All services</a></div>
+</div>
+<figure class="ph" id="sdImg"></figure>
+</div>
+<div class="sdmore"><h3>Other services</h3><div id="sdOther"></div></div>
 </div></section>
 </div>
 
@@ -386,7 +420,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 <label class="opt"><input type="checkbox" name="bsv" value="Something else" data-price="0" data-quote="1"><span class="ot"><b>Something else</b><small>Any other job not listed here. Describe it below and we will send a written quote before any work begins.</small></span><span class="op">Quoted<small>in writing</small></span></label>
 </div></fieldset>
 <div class="est" id="est" aria-live="polite"><div class="eh"><span>Estimated total</span><span class="et" id="estT">$0</span></div><ul id="estL"></ul><p id="estN">Select one or more services to see an estimate.</p></div>
-<div class="row"><div class="field"><label for="bd">Preferred date</label><input id="bd" type="date" required></div>
+<div class="row"><div class="field"><label for="bd">Preferred date (dd/mm/yyyy)</label><input id="bd" type="text" inputmode="numeric" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off" required></div>
 <div class="field"><label for="bt">Drop-off time</label><select id="bt"><option>8:00 am</option><option>9:00 am</option><option>10:00 am</option><option>12:00 pm</option><option>2:00 pm</option></select></div></div>
 <div class="row"><div class="field"><label for="bm">Make and model</label><input id="bm" required placeholder="Example: BMW M340i"></div>
 <div class="field"><label for="br">Registration</label><input id="br" required></div></div>
@@ -478,7 +512,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 <div class='tp' id='t-bk' hidden>
 <div class='card' style='margin-bottom:1.2rem'><h3>Add a booking</h3><p>For phone or walk-in customers. It counts in your numbers straight away.</p>
 <div class='row'><div class='field'><label for='nName'>Customer</label><input id='nName'></div><div class='field'><label for='nCar'>Vehicle</label><input id='nCar'></div></div>
-<div class='row'><div class='field'><label for='nSvc'>Service</label><select id='nSvc'><option>Interim service</option><option>Full service</option><option>Diagnostics</option><option>Brakes and suspension</option><option>Tyres and alignment</option><option>Air conditioning</option><option>Pre-purchase inspection</option><option>Something else</option></select></div><div class='field'><label for='nDate'>Date</label><input id='nDate' type='date'></div></div>
+<div class='row'><div class='field'><label for='nSvc'>Service</label><select id='nSvc'><option>Interim service</option><option>Full service</option><option>Diagnostics</option><option>Brakes and suspension</option><option>Tyres and alignment</option><option>Air conditioning</option><option>Pre-purchase inspection</option><option>Something else</option></select></div><div class='field'><label for='nDate'>Date</label><input id='nDate' type='text' inputmode='numeric' placeholder='dd/mm/yyyy' maxlength='10' autocomplete='off'></div></div>
 <p id='nErr' role='alert' style='color:#B5462F;min-height:1.5em;margin:0 0 .5rem'></p><button class='btn sm' id='nAdd' type='button'>Add booking</button></div>
 <div class='field' style='max-width:240px'><label for='bf'>Show</label><select id='bf'><option value=''>All bookings</option><option>Pending</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option></select></div>
 <div class='scroll'><table class='hist' id='bTable'></table></div>
@@ -529,7 +563,7 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 var pages=['home','services','about','booking','contact','account','admin'];
 var titles={home:'Halden Motor Works',services:'Services',about:'About us',booking:'Book a service',contact:'Contact',account:'My account',admin:'Owner dashboard'};
 function route(){
-  var h=(location.hash||'').slice(1);
+  var h=(location.hash||'').slice(1).split('/')[0];
   if(pages.indexOf(h)<0)h='home';
   pages.forEach(function(p){document.getElementById('p-'+p).hidden=(p!==h);});
   document.querySelectorAll('nav a').forEach(function(a){
@@ -575,6 +609,9 @@ document.getElementById('bookForm').addEventListener('submit',function(e){
   var need=['bd','bm','br','bn','bp','be'],err=document.getElementById('bErr');
   if(!window.__svcSel().length){err.textContent='Please choose at least one service.';document.querySelector('#bsWrap input').focus();return;}
   for(var i=0;i<need.length;i++){if(!val(need[i])){err.textContent='Please complete every required field before requesting the booking.';document.getElementById(need[i]).focus();return;}}
+  var di=window.__D.iso(val('bd'));
+  if(!di){err.textContent='Enter the date as dd/mm/yyyy, for example 05/11/2026.';document.getElementById('bd').focus();return;}
+  if(di<window.__D.today()){err.textContent='Please choose today or a later date.';document.getElementById('bd').focus();return;}
   if(!/^\S+@\S+\.\S+$/.test(val('be'))){err.textContent='Enter a valid email address so we can confirm your booking.';document.getElementById('be').focus();return;}
   err.textContent='';
   if(window.__saveBooking){window.__saveBooking(this);return;}
@@ -657,12 +694,12 @@ function render(){
   var tot=0,keys=Object.keys(svc).sort(function(a,b){return svc[b]-svc[a];}).slice(0,5);
   keys.forEach(function(k){tot+=svc[k];});
   $('topSvc').innerHTML=keys.length?keys.map(function(k){var pc=Math.round(svc[k]/Object.keys(svc).reduce(function(a,x){return a+svc[x];},0)*100);return '<div class="meter"><div><span>'+esc(k)+'</span><b>'+svc[k]+' ('+pc+'%)</b></div><u><i style="width:'+pc+'%"></i></u></div>';}).join(''):'<p style="margin:0;color:var(--muted)">No bookings yet.</p>';
-  var f=$('bf').value,h='<tr><th>Date</th><th>Customer</th><th>Vehicle</th><th>Service</th><th>Value \u00a3</th><th>Status</th></tr>';
+  var f=$('bf').value,h='<tr><th>Date</th><th>Customer</th><th>Vehicle</th><th>Service</th><th>Estimate</th><th>Value \u00a3</th><th>Status</th></tr>';
   var list=rows.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0;}).filter(function(r){return !f||r.status===f;});
-  if(!list.length)h+='<tr><td colspan="6">No bookings here yet. They appear the moment they are made.</td></tr>';
+  if(!list.length)h+='<tr><td colspan="7">No bookings here yet. They appear the moment they are made.</td></tr>';
   list.forEach(function(r){
     var o=ST.map(function(x){return '<option'+(x===r.status?' selected':'')+'>'+x+'</option>';}).join('');
-    h+='<tr><td>'+esc(r.date)+'</td><td>'+esc(r.name)+'<br><small style="color:var(--muted)">'+esc(r.phone||r.email||'')+'</small></td><td>'+esc(r.car)+'</td><td>'+esc(r.svc)+'</td><td><input type="number" min="0" step="1" style="width:6rem;padding:.35rem .5rem" data-v="'+esc(r.id)+'" value="'+(+r.value||'')+'" aria-label="Value for '+esc(r.name)+'"></td><td><select data-s="'+esc(r.id)+'" aria-label="Status for '+esc(r.name)+'">'+o+'</select></td></tr>';
+    h+='<tr><td>'+esc(window.__D.fmt(r.date))+'</td><td>'+esc(r.name)+'<br><small style="color:var(--muted)">'+esc(r.phone||r.email||'')+'</small></td><td>'+esc(r.car)+'</td><td>'+esc(r.svc)+'</td><td>'+esc(window.__estTxt(r.svc))+'</td><td><input type="number" min="0" step="1" style="width:6rem;padding:.35rem .5rem" data-v="'+esc(r.id)+'" value="'+(+r.value||'')+'" aria-label="Value for '+esc(r.name)+'"></td><td><select data-s="'+esc(r.id)+'" aria-label="Status for '+esc(r.name)+'">'+o+'</select></td></tr>';
   });
   $('bTable').innerHTML=h;
 }
@@ -677,9 +714,9 @@ $('bTable').addEventListener('change',function(e){
 });
 $('bf').addEventListener('change',render);
 $('nAdd').addEventListener('click',function(){
-  var n=$('nName').value.trim(),c=$('nCar').value.trim(),d=$('nDate').value;
+  var n=$('nName').value.trim(),c=$('nCar').value.trim(),d=window.__D.iso($('nDate').value.trim());
   if(!DB)return;
-  if(!n||!c||!d){$('nErr').textContent='Add the customer, vehicle and date.';return;}
+  if(!n||!c||!d){$('nErr').textContent='Add the customer, vehicle and a date as dd/mm/yyyy.';return;}
   $('nErr').textContent='';
   sb.from('bookings').insert({name:n,car:c,svc:$('nSvc').value,date:d,status:'Confirmed',value:0,src:'owner'})
     .then(function(r){if(r.error){$('nErr').textContent='Could not save the booking.';}else{$('nName').value='';$('nCar').value='';load();}});
@@ -688,14 +725,14 @@ $('nAdd').addEventListener('click',function(){
 window.__saveBooking=async function(f){
   var g=function(i){return document.getElementById(i).value.trim();},ok=document.getElementById('bOk');
   var est=window.__svcEst(),en='Estimated total: from $'+est.total+(est.quote?' plus a written quote for other work':'')+' (estimate only, final price confirmed in writing before work begins)';
-  var b={name:g('bn'),phone:g('bp'),email:g('be'),car:g('bm')+' ('+g('br')+')',svc:window.__svcSel().join(', '),date:g('bd'),time:document.getElementById('bt').value,notes:(g('bx')?g('bx')+'\n\n':'')+en,status:'Pending',value:0,src:'online'};
+  var b={name:g('bn'),phone:g('bp'),email:g('be'),car:g('bm')+' ('+g('br')+')',svc:window.__svcSel().join(', '),date:window.__D.iso(g('bd')),time:document.getElementById('bt').value,notes:(g('bx')?g('bx')+'\n\n':'')+en,status:'Pending',value:0,src:'online'};
   try{
     var r=await sb.from('bookings').insert(b);
     if(r.error)throw r.error;
-    ok.innerHTML='<h3>Booking requested</h3><p>Thank you, '+esc(b.name)+'. We have your request for <b>'+esc(b.svc)+'</b> (estimated total from <b>$'+est.total+'</b>'+(est.quote?', plus a quote for other work':'')+') on <b>'+esc(b.date)+'</b> at <b>'+esc(b.time)+'</b>. We will confirm by phone or email within one working day.</p>';
+    ok.innerHTML='<h3>Booking requested</h3><p>Thank you, '+esc(b.name)+'. We have your request for <b>'+esc(b.svc)+'</b> (estimated total from <b>$'+est.total+'</b>'+(est.quote?', plus a quote for other work':'')+') on <b>'+esc(g('bd'))+'</b> at <b>'+esc(b.time)+'</b>. We will confirm by phone or email within one working day.</p>';
   }catch(x){
     var m=document.querySelector('a[href^="mailto:"]').getAttribute('href').slice(7);
-    var body=['Service: '+b.svc,'Date: '+b.date+' at '+b.time,'Vehicle: '+b.car,'Name: '+b.name,'Phone: '+b.phone,'Email: '+b.email,'Notes: '+b.notes].join('\n');
+    var body=['Service: '+b.svc,'Date: '+g('bd')+' at '+b.time,'Vehicle: '+b.car,'Name: '+b.name,'Phone: '+b.phone,'Email: '+b.email,'Notes: '+b.notes].join('\n');
     ok.innerHTML='<h3>Your booking has not been sent yet</h3><p>Online booking is not available in this view. <a href="mailto:'+esc(m)+'?subject='+encodeURIComponent('Booking request')+'&body='+encodeURIComponent(body)+'">Email these details to the workshop</a> and we will confirm within one working day.</p>';
   }
   ok.hidden=false;f.hidden=true;ok.focus();
@@ -724,6 +761,82 @@ $('zReset').addEventListener('click',function(){
 </script>
 <script>
 (function(){
+/* service catalogue: used by the detail view and by estimates in the dashboard and account */
+var SV={
+'interim-service':{name:'Interim service',price:119,time:'About 1.5 hours',img:'interim-service',fb:'servicing',
+ lead:'A quick, thorough check-up between full services.',
+ body:'Best for drivers who cover high mileage or want to stay ahead of oil wear between manufacturer services. We drain and refill with the correct specification oil, fit a new filter and check the parts most likely to cause trouble later.',
+ inc:['Engine oil and filter change','Fluid levels checked and topped up','Brake and tyre check, including tread depth and pressures','40-point vehicle inspection with a written summary']},
+'full-service':{name:'Full service',price:229,time:'About 3 hours',img:'full-service',fb:'servicing',
+ lead:'Everything your car needs, to the manufacturer schedule.',
+ body:'The complete service for your make and model. It covers everything in the interim service and adds the filters and ignition parts that are due, finished with a road test so we know it drives as it should.',
+ inc:['Everything in the interim service','Air, cabin and fuel filters','Spark plugs where due','Genuine parts and a full road test']},
+'diagnostics':{name:'Diagnostics',price:79,time:'About 1 hour',img:'diagnostics',fb:'servicing',
+ lead:'Faults found, not guessed at.',
+ body:'For warning lights, poor running, odd noises or anything that does not feel right. We scan every control module, study live data and give you a written fault report in plain English. If you go ahead with the repair, the diagnostic fee is credited against it.',
+ inc:['Full-system scan of all control modules','Live data analysis','Written fault report','Fee credited against any repair we carry out']},
+'brakes-and-suspension':{name:'Brakes and suspension',price:149,time:'2 to 5 hours',img:'brakes',fb:'workshop',
+ lead:'Stopping power and ride comfort, restored.',
+ body:'Choose this for squealing, judder, pulling to one side or a bouncy ride. We photograph worn parts so you can see what needs doing today and what can wait, then fit new parts to manufacturer torque specifications.',
+ inc:['Pads and discs','Brake fluid','Dampers and bushes','Fitted and bedded in to manufacturer torque specifications']},
+'tyres-and-alignment':{name:'Tyres and alignment',price:89,time:'About 1 hour',img:'tyres',fb:'car-3',
+ lead:'The right tyres, set up straight.',
+ body:'Uneven wear, vibration at speed and a car that drifts are all signs of tyre or alignment problems. We supply and fit tyres, balance the wheels and set the geometry with a laser four-wheel alignment.',
+ inc:['Tyre supply and fitting','Wheel balancing','Laser four-wheel alignment','Tyre pressures set and checked']},
+'air-conditioning':{name:'Air conditioning',price:99,time:'1 to 2 hours',img:'air-conditioning',fb:'workshop',
+ lead:'Cold air back on demand.',
+ body:'If the air is not cold, the system smells musty or the compressor is noisy, we find out why. We test for leaks first so a regas actually lasts, and replace the compressor if it has failed.',
+ inc:['Leak testing','Air conditioning regas','Compressor replacement if needed','Vent temperature check after the work']},
+'pre-purchase-inspection':{name:'Pre-purchase inspection',price:139,time:'About 2 hours',img:'inspection',fb:'car-2',
+ lead:'Know exactly what you are buying.',
+ body:'A detailed written report on any used car before you commit. We check the things a quick test drive misses, so you can negotiate the price, ask the seller to fix issues, or walk away with confidence.',
+ inc:['Detailed written report','Paint depth readings','Underbody inspection','Mechanical and condition checks']}
+};
+var PR={};Object.keys(SV).forEach(function(k){PR[SV[k].name]=SV[k].price;});
+window.__estTxt=function(s){
+  var t=0,q=false,n=0;
+  String(s||'').split(', ').forEach(function(x){if(!x)return;if(PR[x]!=null){t+=PR[x];n++;}else q=true;});
+  if(!n&&!q)return '-';
+  if(!n)return 'Quoted in writing';
+  return 'From $'+t+(q?' + quote':'');
+};
+window.__D={
+  iso:function(s){
+    var m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(s||'').trim());if(!m)return null;
+    var d=+m[1],mo=+m[2],y=+m[3],t=new Date(y,mo-1,d);
+    if(t.getFullYear()!==y||t.getMonth()!==mo-1||t.getDate()!==d)return null;
+    return y+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  },
+  fmt:function(iso){var q=String(iso||'').split('-');return q.length===3?q[2]+'/'+q[1]+'/'+q[0]:String(iso||'');},
+  today:function(){var n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+};
+['bd','nDate'].forEach(function(id){
+  var el=document.getElementById(id);if(!el)return;
+  el.addEventListener('input',function(){
+    var v=el.value.replace(/\D/g,'').slice(0,8),o=v;
+    if(v.length>4)o=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);else if(v.length>2)o=v.slice(0,2)+'/'+v.slice(2);
+    el.value=o;
+  });
+});
+function showSvc(){
+  var det=document.getElementById('svcDetail'),list=document.querySelector('#p-services > section.block:not(#svcDetail)');
+  if(!det||!list)return;
+  var m=/^#services\/([\w-]+)/.exec(location.hash||''),k=m&&SV[m[1]]?m[1]:null,s=k&&SV[k];
+  list.hidden=!!s;det.hidden=!s;
+  if(!s)return;
+  var $=function(i){return document.getElementById(i);};
+  $('sdTitle').textContent=s.name;$('sdLead').textContent=s.lead;$('sdBody').textContent=s.body;
+  $('sdPrice').textContent='From $'+s.price;$('sdTime').textContent=s.time;
+  $('sdList').innerHTML=s.inc.map(function(x){return '<li>'+x+'</li>';}).join('');
+  $('sdImg').innerHTML='<img src="images/'+s.img+'.jpg" data-n="'+s.img+'" data-fb="'+s.fb+'" data-i="0" alt="'+s.name+' at Halden Motor Works" onerror="phNext(this)">';
+  $('sdOther').innerHTML=Object.keys(SV).filter(function(x){return x!==k;}).map(function(x){return '<a href="#services/'+x+'">'+SV[x].name+'</a>';}).join('');
+  $('sdBook').onclick=function(){
+    document.querySelectorAll('#bsWrap input[name="bsv"]').forEach(function(b){if(b.value===s.name){b.checked=true;b.dispatchEvent(new Event('change'));}});
+    location.hash='#booking';
+  };
+  document.title=s.name+' | Halden Motor Works';
+}
+window.addEventListener('hashchange',showSvc);showSvc();
 var boxes=document.querySelectorAll('#bsWrap input[name="bsv"]');
 window.__svcSel=function(){return Array.prototype.filter.call(boxes,function(b){return b.checked;}).map(function(b){return b.value;});};
 window.__svcEst=function(){
@@ -752,8 +865,8 @@ var L=$('acctLogin'),H=$('acctHome');
 function show(on){L.hidden=on;H.hidden=!on;}
 function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function pd(x){var q=String(x).split('-');return new Date(+q[0],+q[1]-1,+q[2]);}
-function fd(x){return pd(x).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});}
-function fs(x){return pd(x).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+function fd(x){return pd(x).toLocaleDateString('en-GB',{weekday:'long'})+', '+window.__D.fmt(x);}
+function fs(x){return window.__D.fmt(x);}
 function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function msg(t,good){var p=$('lErr');p.textContent=t;p.style.color=good?'var(--ink)':'#B5462F';}
 function setMode(m){
@@ -801,17 +914,17 @@ async function loadAccount(){
   $('hello').textContent='Welcome back, '+nm;
   var today=ymd(new Date()),nx=mine.filter(function(x){return x.date>=today&&(x.status==='Pending'||x.status==='Confirmed');})[0];
   $('nextCard').innerHTML=nx
-    ?'<span class="tag">Next booking · '+(nx.status==='Confirmed'?'Confirmed':'Awaiting confirmation')+'</span><h3>'+esc(nx.svc)+'</h3><p>'+esc(fd(nx.date))+(nx.time?', '+esc(nx.time):'')+'<br>'+esc(nx.car)+'</p><a class="btn line sm" href="#contact">Change or cancel</a>'
+    ?'<span class="tag">Next booking · '+(nx.status==='Confirmed'?'Confirmed':'Awaiting confirmation')+'</span><h3>'+esc(nx.svc)+'</h3><p>'+esc(fd(nx.date))+(nx.time?', '+esc(nx.time):'')+'<br>'+esc(nx.car)+'</p><p style="color:var(--ink)"><b>Estimated price: '+esc(window.__estTxt(nx.svc))+'</b></p><a class="btn line sm" href="#contact">Change or cancel</a>'
     :'<span class="tag">Next booking</span><h3>Nothing booked yet</h3><p>Your next booking will appear here.</p><a class="btn sm" href="#booking">Book a service</a>';
   var cars={};
   mine.forEach(function(x){var k=String(x.car||'').trim().toLowerCase();if(!k)return;var c=cars[k]||(cars[k]={n:x.car,last:''});if(x.status==='Completed'&&x.date>c.last)c.last=x.date;});
   var ck=Object.keys(cars);
   $('carList').innerHTML=ck.length?ck.map(function(k,i){var c=cars[k];return '<dt'+(i?'':' style="margin-top:0"')+'>'+esc(c.n)+'</dt><dd>'+(c.last?'Last service '+esc(fs(c.last)):'No completed service yet')+'</dd>';}).join(''):'<dd style="margin:0;color:var(--muted)">Vehicles you book will be listed here.</dd>';
-  var h='<tr><th>Date</th><th>Vehicle</th><th>Service</th><th>Status</th><th class="r">Invoice</th></tr>';
-  if(!mine.length)h+='<tr><td colspan="5">No bookings yet.</td></tr>';
+  var h='<tr><th>Date</th><th>Vehicle</th><th>Service</th><th>Status</th><th class="r">Estimate</th><th class="r">Invoice</th></tr>';
+  if(!mine.length)h+='<tr><td colspan="6">No bookings yet.</td></tr>';
   mine.slice().reverse().forEach(function(x){
     var inv=x.status==='Completed'&&+x.value>0?'\u00a3'+Number(x.value).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2}):'-';
-    h+='<tr><td>'+esc(fs(x.date))+'</td><td>'+esc(x.car)+'</td><td>'+esc(x.svc)+'</td><td>'+esc(x.status)+'</td><td class="r">'+inv+'</td></tr>';
+    h+='<tr><td>'+esc(fs(x.date))+'</td><td>'+esc(x.car)+'</td><td>'+esc(x.svc)+'</td><td>'+esc(x.status)+'</td><td class="r">'+esc(window.__estTxt(x.svc))+'</td><td class="r">'+inv+'</td></tr>';
   });
   $('hist').innerHTML=h;
   if($('be')&&!$('be').value)$('be').value=ses.user.email;
