@@ -175,6 +175,26 @@ table{border-collapse:collapse;width:100%;max-width:420px}
 td{padding:.45rem 0;border-bottom:1px solid var(--line)}
 td:last-child{text-align:right;color:var(--muted)}
 
+/* booking service picker */
+fieldset.svcpick{border:0;margin:0 0 1rem;padding:0;min-width:0}
+fieldset.svcpick legend{font-weight:600;font-size:.95rem;margin-bottom:.5rem;padding:0}
+.opts{display:grid;gap:.6rem}
+label.opt{display:grid;grid-template-columns:auto 1fr auto;gap:.2rem .8rem;align-items:start;margin:0;padding:.8rem 1rem;background:var(--bg);border:1px solid var(--line);border-radius:4px;cursor:pointer;font-weight:400;transition:border-color .2s,background .2s,box-shadow .2s}
+label.opt:hover{border-color:var(--accent)}
+label.opt:has(input:checked){border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+label.opt input{width:auto;margin:.35rem 0 0;accent-color:var(--accent)}
+label.opt .ot b{display:block;font:600 1.05rem var(--head);letter-spacing:.03em;color:var(--navy)}
+label.opt .ot small{display:block;color:var(--muted);font-size:.92rem;line-height:1.45;margin-top:.15rem}
+label.opt .op{font:700 1.1rem var(--head);color:var(--accent-d);white-space:nowrap;text-align:right}
+label.opt .op small{display:block;font:400 .8rem var(--body);color:var(--muted)}
+.est{margin:0 0 1.2rem;padding:1rem 1.2rem;background:var(--navy);color:#DCE8FF;border-radius:4px}
+.est .eh{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.est .et{font:700 1.9rem var(--head);color:#fff;letter-spacing:.01em}
+.est ul{list-style:none;margin:.6rem 0 0;padding:0;font-size:.95rem}
+.est li{display:flex;justify-content:space-between;gap:1rem;padding:.2rem 0;border-top:1px solid #ffffff24}
+.est p{margin:.6rem 0 0;font-size:.85rem;color:#B9C9F2;max-width:none}
+@media (max-width:520px){label.opt{grid-template-columns:auto 1fr}label.opt .op{grid-column:2;text-align:left}}
+
 /* footer */
 footer{background:var(--navy);color:#B9C9F2;padding-block:3.2rem 1.6rem;font-size:.95rem}
 .fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2rem}
@@ -354,7 +374,18 @@ footer .sub{border-top:1px solid #ffffff24;margin-top:2.2rem;padding-top:1.2rem;
 <section class="block"><div class="wrap" style="max-width:760px">
 <div class="panel" id="bookPanel">
 <form id="bookForm" novalidate>
-<div class="field"><label for="bs">Service</label><select id="bs" required><option value="">Select a service</option><option>Interim service</option><option>Full service</option><option>Diagnostics</option><option>Brakes and suspension</option><option>Tyres and alignment</option><option>Air conditioning</option><option>Pre-purchase inspection</option><option>Something else</option></select></div>
+<fieldset class="svcpick" id="bsWrap"><legend>Services (choose one or more)</legend>
+<div class="opts">
+<label class="opt"><input type="checkbox" name="bsv" value="Interim service" data-price="119"><span class="ot"><b>Interim service</b><small>Oil and filter change, fluid level top-ups, brake and tyre check and a 40-point inspection. Ideal between full services or for lower-mileage drivers. About 1.5 hours.</small></span><span class="op">From $119</span></label>
+<label class="opt"><input type="checkbox" name="bsv" value="Full service" data-price="229"><span class="ot"><b>Full service</b><small>Everything in the interim service plus air, cabin and fuel filters, spark plugs where due, and a road test. Follows the manufacturer schedule. About 3 hours.</small></span><span class="op">From $229</span></label>
+<label class="opt"><input type="checkbox" name="bsv" value="Diagnostics" data-price="79"><span class="ot"><b>Diagnostics</b><small>Full-system scan, live data analysis and a written fault report for warning lights, poor running or odd behaviour. The fee is credited against any repair we carry out. About 1 hour.</small></span><span class="op">From $79</span></label>
+<label class="opt"><input type="checkbox" name="bsv" value="Brakes and suspension" data-price="149"><span class="ot"><b>Brakes and suspension</b><small>Pads, discs, brake fluid, dampers and bushes, fitted and bedded in to manufacturer torque specifications. Choose this for squealing, judder, pulling or a bouncy ride. 2 to 5 hours.</small></span><span class="op">From $149</span></label>
+<label class="opt"><input type="checkbox" name="bsv" value="Tyres and alignment" data-price="89"><span class="ot"><b>Tyres and alignment</b><small>Tyre supply and fitting, wheel balancing and laser four-wheel alignment to cure uneven wear, vibration and drifting. About 1 hour.</small></span><span class="op">From $89</span></label>
+<label class="opt"><input type="checkbox" name="bsv" value="Air conditioning" data-price="99"><span class="ot"><b>Air conditioning</b><small>Leak testing, regas and compressor replacement to restore cold air and clear musty smells. 1 to 2 hours.</small></span><span class="op">From $99</span></label>
+<label class="opt"><input type="checkbox" name="bsv" value="Pre-purchase inspection" data-price="139"><span class="ot"><b>Pre-purchase inspection</b><small>A detailed written report on a used car before you buy, including paint depth, underbody and mechanical checks, so you can negotiate or walk away with confidence. About 2 hours.</small></span><span class="op">From $139</span></label>
+<label class="opt"><input type="checkbox" name="bsv" value="Something else" data-price="0" data-quote="1"><span class="ot"><b>Something else</b><small>Any other job not listed here. Describe it below and we will send a written quote before any work begins.</small></span><span class="op">Quoted<small>in writing</small></span></label>
+</div></fieldset>
+<div class="est" id="est" aria-live="polite"><div class="eh"><span>Estimated total</span><span class="et" id="estT">$0</span></div><ul id="estL"></ul><p id="estN">Select one or more services to see an estimate.</p></div>
 <div class="row"><div class="field"><label for="bd">Preferred date</label><input id="bd" type="date" required></div>
 <div class="field"><label for="bt">Drop-off time</label><select id="bt"><option>8:00 am</option><option>9:00 am</option><option>10:00 am</option><option>12:00 pm</option><option>2:00 pm</option></select></div></div>
 <div class="row"><div class="field"><label for="bm">Make and model</label><input id="bm" required placeholder="Example: BMW M340i"></div>
@@ -541,13 +572,14 @@ function val(id){return document.getElementById(id).value.trim();}
 
 document.getElementById('bookForm').addEventListener('submit',function(e){
   e.preventDefault();
-  var need=['bs','bd','bm','br','bn','bp','be'],err=document.getElementById('bErr');
+  var need=['bd','bm','br','bn','bp','be'],err=document.getElementById('bErr');
+  if(!window.__svcSel().length){err.textContent='Please choose at least one service.';document.querySelector('#bsWrap input').focus();return;}
   for(var i=0;i<need.length;i++){if(!val(need[i])){err.textContent='Please complete every required field before requesting the booking.';document.getElementById(need[i]).focus();return;}}
   if(!/^\S+@\S+\.\S+$/.test(val('be'))){err.textContent='Enter a valid email address so we can confirm your booking.';document.getElementById('be').focus();return;}
   err.textContent='';
   if(window.__saveBooking){window.__saveBooking(this);return;}
   var ok=document.getElementById('bOk');
-  ok.innerHTML='<h3>Booking requested</h3><p>Thank you, '+esc(val('bn'))+'. We have your request for a <b>'+esc(val('bs'))+'</b> on <b>'+esc(val('bd'))+'</b> at <b>'+esc(document.getElementById('bt').value)+'</b> for your '+esc(val('bm'))+' ('+esc(val('br'))+'). We will confirm by phone or email within one working day.</p>';
+  ok.innerHTML='<h3>Booking requested</h3><p>Thank you, '+esc(val('bn'))+'. We have your request for <b>'+esc(window.__svcSel().join(', '))+'</b> (estimated total from <b>$'+window.__svcEst().total+'</b>) on <b>'+esc(val('bd'))+'</b> at <b>'+esc(document.getElementById('bt').value)+'</b> for your '+esc(val('bm'))+' ('+esc(val('br'))+'). We will confirm by phone or email within one working day.</p>';
   ok.hidden=false;this.hidden=true;ok.focus();
 });
 document.getElementById('cForm').addEventListener('submit',function(e){
@@ -610,7 +642,7 @@ function render(){
   rows.forEach(function(r){
     var d=pd(r.date),live=r.status!=='Cancelled';
     if(r.status==='Pending')pend++;
-    if(live)svc[r.svc]=(svc[r.svc]||0)+1;
+    if(live)String(r.svc||'').split(', ').forEach(function(s){if(s)svc[s]=(svc[s]||0)+1;});
     if(d.getMonth()===cm&&d.getFullYear()===cy){if(live)bc++;if(r.status==='Completed'){rev+=+r.value||0;done++;}}
     else if(d.getMonth()===pm&&d.getFullYear()===py){if(live)pbc++;if(r.status==='Completed')prev+=+r.value||0;}
     var k=Math.floor((t0-d)/604800000);
@@ -655,11 +687,12 @@ $('nAdd').addEventListener('click',function(){
 
 window.__saveBooking=async function(f){
   var g=function(i){return document.getElementById(i).value.trim();},ok=document.getElementById('bOk');
-  var b={name:g('bn'),phone:g('bp'),email:g('be'),car:g('bm')+' ('+g('br')+')',svc:g('bs'),date:g('bd'),time:document.getElementById('bt').value,notes:g('bx'),status:'Pending',value:0,src:'online'};
+  var est=window.__svcEst(),en='Estimated total: from $'+est.total+(est.quote?' plus a written quote for other work':'')+' (estimate only, final price confirmed in writing before work begins)';
+  var b={name:g('bn'),phone:g('bp'),email:g('be'),car:g('bm')+' ('+g('br')+')',svc:window.__svcSel().join(', '),date:g('bd'),time:document.getElementById('bt').value,notes:(g('bx')?g('bx')+'\n\n':'')+en,status:'Pending',value:0,src:'online'};
   try{
     var r=await sb.from('bookings').insert(b);
     if(r.error)throw r.error;
-    ok.innerHTML='<h3>Booking requested</h3><p>Thank you, '+esc(b.name)+'. We have your request for a <b>'+esc(b.svc)+'</b> on <b>'+esc(b.date)+'</b> at <b>'+esc(b.time)+'</b>. We will confirm by phone or email within one working day.</p>';
+    ok.innerHTML='<h3>Booking requested</h3><p>Thank you, '+esc(b.name)+'. We have your request for <b>'+esc(b.svc)+'</b> (estimated total from <b>$'+est.total+'</b>'+(est.quote?', plus a quote for other work':'')+') on <b>'+esc(b.date)+'</b> at <b>'+esc(b.time)+'</b>. We will confirm by phone or email within one working day.</p>';
   }catch(x){
     var m=document.querySelector('a[href^="mailto:"]').getAttribute('href').slice(7);
     var body=['Service: '+b.svc,'Date: '+b.date+' at '+b.time,'Vehicle: '+b.car,'Name: '+b.name,'Phone: '+b.phone,'Email: '+b.email,'Notes: '+b.notes].join('\n');
@@ -687,6 +720,29 @@ $('zReset').addEventListener('click',function(){
   $('zName').value=D.name;$('zHead').value=D.head;$('zPhone').value=D.phone;$('zMail').value=D.mail;$('zBan').checked=false;col=D.col;
   document.querySelectorAll('.sw').forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-c')===col);});apply();
 });
+})();
+</script>
+<script>
+(function(){
+var boxes=document.querySelectorAll('#bsWrap input[name="bsv"]');
+window.__svcSel=function(){return Array.prototype.filter.call(boxes,function(b){return b.checked;}).map(function(b){return b.value;});};
+window.__svcEst=function(){
+  var t=0,q=false;
+  boxes.forEach(function(b){if(b.checked){t+=+b.getAttribute('data-price')||0;if(b.hasAttribute('data-quote'))q=true;}});
+  return {total:t,quote:q};
+};
+function upd(){
+  var sel=Array.prototype.filter.call(boxes,function(b){return b.checked;}),e=window.__svcEst();
+  document.getElementById('estT').textContent=(sel.length?'From ':'')+'$'+e.total;
+  document.getElementById('estL').innerHTML=sel.map(function(b){
+    var n=b.hasAttribute('data-quote')?'Quoted in writing':'$'+b.getAttribute('data-price');
+    return '<li><span>'+b.value+'</span><span>'+n+'</span></li>';
+  }).join('');
+  document.getElementById('estN').textContent=sel.length
+    ?'Estimate based on our "from" prices'+(e.quote?', excluding other work, which is quoted separately':'')+'. You will get a written quote and approve it before any work begins.'
+    :'Select one or more services to see an estimate.';
+}
+boxes.forEach(function(b){b.addEventListener('change',upd);});upd();
 })();
 </script>
 <script>
